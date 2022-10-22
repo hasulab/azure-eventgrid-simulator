@@ -5,7 +5,7 @@ namespace Azure.EventGrid.Simulator.Settings;
 public class FilterSetting
 {
     [JsonProperty(PropertyName = "includedEventTypes", Required = Required.AllowNull)]
-    public ICollection<string> IncludedEventTypes { get; set; }
+    public List<string> IncludedEventTypes { get; set; }
 
     [JsonProperty(PropertyName = "isSubjectCaseSensitive", Required = Required.AllowNull)]
     public bool IsSubjectCaseSensitive { get; set; }
@@ -17,7 +17,7 @@ public class FilterSetting
     public string SubjectEndsWith { get; set; }
 
     [JsonProperty(PropertyName = "advancedFilters", Required = Required.AllowNull)]
-    public ICollection<AdvancedFilterSetting> AdvancedFilters { get; set; }
+    public List<AdvancedFilterSetting> AdvancedFilters { get; set; }
 
     internal void Validate()
     {
@@ -26,7 +26,7 @@ public class FilterSetting
             throw new ArgumentOutOfRangeException(nameof(AdvancedFilters), "Advanced filtering is limited to five advanced filters per event grid subscription.");
         }
 
-        foreach (var advancedFilter in AdvancedFilters ?? Array.Empty<AdvancedFilterSetting>())
+        foreach (var advancedFilter in AdvancedFilters??new List<AdvancedFilterSetting>())
         {
             advancedFilter.Validate();
         }

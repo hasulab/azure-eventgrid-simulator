@@ -1,6 +1,7 @@
 using Azure.EventGrid.Simulator.Extensions;
 using Azure.EventGrid.Simulator.Models;
 using Azure.EventGrid.Simulator.Settings;
+using Newtonsoft.Json;
 
 namespace Azure.EventGrid.Simulator.Tests
 {
@@ -12,10 +13,17 @@ namespace Azure.EventGrid.Simulator.Tests
         {
             _topicSettings=new TopicSettings
             {
+                Name = "testTopic",
+                Port = 8080,
+                Key = "testKey",
                 Subscribers = new []
                 {
                     new SubscriptionSettings
                     {
+                        Name = "Test1",
+                        DisableValidation = true,
+                        Disabled = false,
+                        ValidationStatus = SubscriptionValidationStatus.ValidationSuccessful,
                         Endpoint = "test1.Empty",
                         Filter = new FilterSetting
                         {
@@ -24,6 +32,10 @@ namespace Azure.EventGrid.Simulator.Tests
                     },
                     new SubscriptionSettings
                     {
+                        Name = "Test2",
+                        DisableValidation = true,
+                        Disabled = false,
+                        ValidationStatus = SubscriptionValidationStatus.ValidationSuccessful,
                         Endpoint = "test2.FilterSetting",
                         Filter = new FilterSetting
                         {
@@ -47,6 +59,9 @@ namespace Azure.EventGrid.Simulator.Tests
                 EventType = Test2_FilterSetting,
                 Data = new { Id = 1 }
             };
+            
+            var json= JsonConvert.SerializeObject(_topicSettings);
+
             var counter = 0;
             foreach (var subscription in _topicSettings.Subscribers)
             {
