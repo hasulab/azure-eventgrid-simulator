@@ -1,7 +1,7 @@
-using Azure.EventGrid.Simulator.Tests.TestHelpers;
+using Azure.EventGrid.Simulator.E2E.Tests.TestHelpers;
 using Azure.Messaging.EventGrid;
 
-namespace Azure.EventGrid.Simulator.Tests
+namespace Azure.EventGrid.Simulator.E2E.Tests
 {
     public class EventGridEventClientTest
     {

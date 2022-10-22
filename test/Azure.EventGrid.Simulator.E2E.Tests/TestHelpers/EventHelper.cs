@@ -2,7 +2,7 @@
 using Azure.Core.Serialization;
 using Azure.Messaging.EventGrid;
 
-namespace Azure.EventGrid.Simulator.Tests.TestHelpers
+namespace Azure.EventGrid.Simulator.E2E.Tests.TestHelpers
 {
     public static class EventHelper
     {

@@ -1,4 +1,5 @@
-﻿using Azure.EventGrid.Simulator.Settings;
+﻿using System.Collections.Concurrent;
+using Azure.EventGrid.Simulator.Settings;
 using MediatR;
 using Microsoft.Extensions.Options;
 
@@ -10,7 +11,8 @@ public class EventDeliveryService : BackgroundService
     private readonly IEventQueueService _queueService;
     private readonly IMediator _mediator;
     private readonly EventDeliverySettings _settings;
-
+    private List<Task> _runningTasks = new ();
+    private object syncObj = new object();
     public EventDeliveryService(ILogger<EventDeliveryService> logger,
         IOptions<EventDeliverySettings> settings,
         IEventQueueService queueService,
@@ -36,7 +38,19 @@ public class EventDeliveryService : BackgroundService
             var command = _queueService.Dequeue();
             if (command != null)
             {
-                await _mediator.Send(command, stoppingToken);
+                var task= _mediator.Send(command, stoppingToken)
+                    .ContinueWith(t =>
+                    {
+                        lock (syncObj)
+                        {
+                            _runningTasks.Remove(t);
+                        }
+                    }, stoppingToken);
+
+                lock (syncObj)
+                {
+                    _runningTasks.Add(task);
+                }
             }
 
             await Task.Delay(_settings.CheckUpdateTime, stoppingToken);
