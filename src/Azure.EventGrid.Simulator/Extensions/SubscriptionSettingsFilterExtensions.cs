@@ -30,7 +30,7 @@ namespace Azure.EventGrid.Simulator.Extensions
                      && (string.IsNullOrWhiteSpace(filter.SubjectEndsWith)
                          || gridEvent.Subject.EndsWith(filter.SubjectEndsWith, filter.IsSubjectCaseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase));
 
-            retVal = retVal && (filter.AdvancedFilters).All(af => af.AcceptsEvent(gridEvent));
+            retVal = retVal && (filter.AdvancedFilters?? new List<AdvancedFilterSetting>()).All(af => af.AcceptsEvent(gridEvent));
 
             return retVal;
         }

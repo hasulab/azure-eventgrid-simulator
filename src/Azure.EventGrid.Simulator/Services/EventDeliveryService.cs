@@ -38,19 +38,19 @@ public class EventDeliveryService : BackgroundService
             var command = _queueService.Dequeue();
             if (command != null)
             {
-                var task= _mediator.Send(command, stoppingToken)
+                await _mediator.Send(command, stoppingToken)
                     .ContinueWith(t =>
                     {
-                        lock (syncObj)
-                        {
-                            _runningTasks.Remove(t);
-                        }
+                        //lock (syncObj)
+                        //{
+                        //    _runningTasks.Remove(t);
+                        //}
                     }, stoppingToken);
-
-                lock (syncObj)
-                {
-                    _runningTasks.Add(task);
-                }
+                
+                //lock (syncObj)
+                //{
+                //    _runningTasks.Add(task);
+                //}
             }
 
             await Task.Delay(_settings.CheckUpdateTime, stoppingToken);
