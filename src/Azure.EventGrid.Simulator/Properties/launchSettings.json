@@ -2,7 +2,8 @@
   "profiles": {
     "Azure.EventGrid.Simulator": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "commandLineArgs": "--port 7241",
+      "launchBrowser": false,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
