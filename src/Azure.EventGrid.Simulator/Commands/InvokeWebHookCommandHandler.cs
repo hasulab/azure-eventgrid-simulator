@@ -34,7 +34,9 @@ public class InvokeWebHookCommandHandler : AsyncRequestHandler<InvokeWebHookComm
         httpClient.DefaultRequestHeaders.Add(Constants.AegDeliveryCountHeader, "0"); // TODO implement re-tries
         httpClient.Timeout = TimeSpan.FromSeconds(60);
 
-        await httpClient.PostAsync(subscription.Endpoint, content, cancellationToken)
+        var endpoint = subscription.Destination.Properties.Endpoint;
+
+        await httpClient.PostAsync(endpoint, content, cancellationToken)
             .ContinueWith(t => LogResult(t, @eventGridEvent, subscription, topicName), cancellationToken);
     }
     private void LogResult(Task<HttpResponseMessage> task, EventGridEvent evt, SubscriptionSettings subscription, string topicName)

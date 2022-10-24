@@ -21,10 +21,17 @@ namespace Azure.EventGrid.Simulator.Tests
                     new SubscriptionSettings
                     {
                         Name = "Test1",
-                        DisableValidation = true,
-                        Disabled = false,
+                        Destination = new SubscriptionDestination()
+                        {
+                            EndpointType = "WebHook",
+                            Properties = new DestinationProperties
+                            { 
+                                DisableValidation = true,
+                                Disabled = false,
+                                Endpoint = "test1.Empty",
+                            }
+                        },
                         ValidationStatus = SubscriptionValidationStatus.ValidationSuccessful,
-                        Endpoint = "test1.Empty",
                         Filter = new FilterSetting
                         {
                             IncludedEventTypes = new List<string>()
@@ -33,10 +40,17 @@ namespace Azure.EventGrid.Simulator.Tests
                     new SubscriptionSettings
                     {
                         Name = "Test2",
-                        DisableValidation = true,
-                        Disabled = false,
+                        Destination = new SubscriptionDestination()
+                        {
+                            EndpointType = "WebHook",
+                            Properties = new DestinationProperties
+                            {
+                                DisableValidation = true,
+                                Disabled = false,
+                                Endpoint = "test2.FilterSetting",
+                            }
+                        },
                         ValidationStatus = SubscriptionValidationStatus.ValidationSuccessful,
-                        Endpoint = "test2.FilterSetting",
                         Filter = new FilterSetting
                         {
                             IncludedEventTypes = new List<string>
