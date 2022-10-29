@@ -47,7 +47,22 @@ public class SendEventsToSubscriberCommandHandler : AsyncRequestHandler<SendEven
                     {
                         if (subscription.Filter.AcceptsEvent(@eventGridEvent))
                         {
-                            _queueService.Enqueue(new InvokeWebHookCommand(subscription, eventGridEvent, topicName));
+                            switch (subscription?.Destination?.EndpointType)
+                            {
+                                case Constants.EndPointTypeWebHook:
+                                    _queueService.Enqueue(new InvokeWebHookCommand(subscription, eventGridEvent, topicName));
+                                    break;
+                                case Constants.EndPointTypeBlob:
+                                    _queueService.Enqueue(new InvokeStorageBlobCommand(subscription, eventGridEvent, topicName));
+                                    break;
+                                case Constants.EndPointTypeQueue:
+                                    _queueService.Enqueue(new InvokeStorageQueueCommand(subscription, eventGridEvent, topicName));
+                                    break;
+                                default:
+                                    _logger.LogError("Event {EventId} not valid type for subscriber '{SubscriberName}'", @eventGridEvent.Id,
+                                        subscription.Name);
+                                    break;
+                            }
                         }
                         else
                         {

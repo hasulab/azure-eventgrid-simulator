@@ -5,14 +5,14 @@ namespace Azure.EventGrid.Simulator.Services
 {
     public class EventQueueService: IEventQueueService
     {
-        private ConcurrentQueue<InvokeWebHookCommand> _concurrentQueue = new();
+        private readonly ConcurrentQueue<InvokeCommandBase> _concurrentQueue = new();
 
-        public void Enqueue(InvokeWebHookCommand command)
+        public void Enqueue(InvokeCommandBase command)
         {
             _concurrentQueue.Enqueue(command);
         }
 
-        public InvokeWebHookCommand? Dequeue()
+        public InvokeCommandBase? Dequeue()
         {
             return _concurrentQueue.TryDequeue(out var command) ? command : null;
         }
@@ -21,7 +21,7 @@ namespace Azure.EventGrid.Simulator.Services
 
     public interface IEventQueueService
     {
-        void Enqueue(InvokeWebHookCommand command);
-        InvokeWebHookCommand? Dequeue();
+        void Enqueue(InvokeCommandBase command);
+        InvokeCommandBase? Dequeue();
     }
 }

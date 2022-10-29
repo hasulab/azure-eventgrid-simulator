@@ -36,8 +36,14 @@ public class DestinationProperties
     [JsonProperty(PropertyName = "endpoint", Required = Required.Always)]
     public string Endpoint { get; set; }
 
+    [JsonProperty(PropertyName = "storageConnectionString", Required = Required.AllowNull)]
+    public string StorageConnectionString { get; set; }
+
     [JsonProperty(PropertyName = "blobContainerName", Required = Required.AllowNull)]
     public string BlobContainerName { get; set; }
+
+    [JsonProperty(PropertyName = "queueName", Required = Required.AllowNull)]
+    public string QueueName { get; set; }
 
     [JsonProperty(PropertyName = "disableValidation", Required = Required.Default)]
     public bool DisableValidation { get; set; }
@@ -45,8 +51,8 @@ public class DestinationProperties
     [JsonProperty(PropertyName = "disabled", Required = Required.Default)]
     public bool Disabled { get; set; }
 
-    [JsonIgnore]
-    public Guid ValidationCode => new(Encoding.UTF8.GetBytes(Endpoint).Reverse().Take(16).ToArray());
+    //[JsonIgnore]
+    //public Guid ValidationCode =>   new(Encoding.UTF8.GetBytes(Endpoint??string.Empty).Reverse().Take(16).ToArray());
 
     [JsonIgnore]
     public bool ValidationPeriodExpired => DateTime.UtcNow > _expired;

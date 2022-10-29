@@ -18,5 +18,9 @@
         // Other
         public const string SupportedApiVersion = "2018-01-01";
         public const string SasAuthorizationType = "SharedAccessSignature";
+
+        public const string EndPointTypeQueue = "StorageQueue";
+        public const string EndPointTypeBlob = "StorageBlob";
+        public const string EndPointTypeWebHook = "WebHook";
     }
 }
