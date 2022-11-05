@@ -27,6 +27,7 @@ public class InvokeStorageQueueCommandHandler : AsyncRequestHandler<InvokeStorag
         {
             _logger.LogInformation("{QueueName} created", request.Subscription.Destination.Properties.QueueName);
         }
-        await queueServiceClient.SendMessageAsync(jsonData, cancellationToken);
+        var response = await queueServiceClient.SendMessageAsync(jsonData, cancellationToken);
+        
     }
 }
