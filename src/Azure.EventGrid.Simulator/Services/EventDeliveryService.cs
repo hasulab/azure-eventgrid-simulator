@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Collections.ObjectModel;
 using Azure.EventGrid.Simulator.Settings;
 using MediatR;
 using Microsoft.Extensions.Options;
@@ -11,7 +12,7 @@ public class EventDeliveryService : BackgroundService
     private readonly IEventQueueService _queueService;
     private readonly IMediator _mediator;
     private readonly EventDeliverySettings _settings;
-    private List<Task> _runningTasks = new ();
+   //private List<Task> _runningTasks = new ();
     private object syncObj = new object();
     public EventDeliveryService(ILogger<EventDeliveryService> logger,
         IOptions<EventDeliverySettings> settings,
@@ -31,26 +32,36 @@ public class EventDeliveryService : BackgroundService
         stoppingToken.Register(() =>
             _logger.LogDebug($" EventDeliveryService background task is stopping."));
 
+        var _runningTasks = new ReadOnlyCollection<Task>(new List<Task>());
+
         while (!stoppingToken.IsCancellationRequested)
         {
             _logger.LogDebug($"EventDeliveryService task doing background work.");
 
-            var command = _queueService.Dequeue();
-            if (command != null)
+            var newTaskList = new List<Task>(_runningTasks);
+            for (var i = _runningTasks.Count; i < _settings.ConcurrentEventsProcessing; i++)
             {
-                await _mediator.Send(command, stoppingToken)
-                    .ContinueWith(t =>
-                    {
-                        //lock (syncObj)
-                        //{
-                        //    _runningTasks.Remove(t);
-                        //}
-                    }, stoppingToken);
-                
-                //lock (syncObj)
-                //{
-                //    _runningTasks.Add(task);
-                //}
+                var command = _queueService.Dequeue();
+                if (command != null)
+                {
+                    var currentTask= _mediator.Send(command, stoppingToken);
+                    newTaskList.Add(currentTask);
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            try
+            {
+                Task.WaitAny(newTaskList.ToArray(), stoppingToken);
+                _runningTasks = new ReadOnlyCollection<Task>(newTaskList.Where(x=>x.IsCompleted == false).ToArray());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                //throw;
             }
 
             await Task.Delay(_settings.CheckUpdateTime, stoppingToken);

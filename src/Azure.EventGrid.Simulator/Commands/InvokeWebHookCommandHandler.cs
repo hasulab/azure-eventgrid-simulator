@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Net;
+using System.Text;
+using Azure.EventGrid.Simulator.Exceptions;
 using Azure.EventGrid.Simulator.Models;
 using Azure.EventGrid.Simulator.Settings;
 using MediatR;
@@ -36,31 +38,34 @@ public class InvokeWebHookCommandHandler : AsyncRequestHandler<InvokeWebHookComm
 
         var endpoint = subscription.Destination.Properties.Endpoint;
 
-        await httpClient.PostAsync(endpoint, content, cancellationToken)
-            .ContinueWith(t => LogResult(t, @eventGridEvent, subscription, topicName), cancellationToken);
-    }
-    private void LogResult(Task<HttpResponseMessage> task, EventGridEvent evt, SubscriptionSettings subscription, string topicName)
-    {
-        if (task.IsCompletedSuccessfully && task.Result.IsSuccessStatusCode)
+        try
         {
-            _logger.LogDebug("Event {EventId} sent to subscriber '{SubscriberName}' on topic '{TopicName}' successfully", evt.Id, subscription.Name, topicName);
-        }
-        else
-        {
-            try
+            var responseMessage = await httpClient.PostAsync(endpoint, content, cancellationToken);
+            if (responseMessage.IsSuccessStatusCode)
             {
-                _logger.LogError(task.Exception,
-                    "Failed to send event {EventId} to subscriber '{SubscriberName}', '{TaskStatus}', '{Reason}'",
-                    evt.Id,
-                    subscription.Name,
-                    task.Status.ToString(),
-                    task.Result?.ReasonPhrase);
+                _logger.LogDebug(
+                    "Event {EventId} sent to subscriber '{SubscriberName}' on topic '{TopicName}' successfully",
+                    eventGridEvent.Id, subscription.Name, topicName);
             }
-            catch (Exception exception)
+            else
             {
-                Console.WriteLine(exception);
+                _logger.LogError("Failed to send event {EventId} to subscriber '{SubscriberName}', '{StatusCode}'",
+                    eventGridEvent.Id,
+                    subscription.Name,responseMessage.StatusCode);
+                if (responseMessage.StatusCode != HttpStatusCode.BadRequest)
+                {
+                    throw new RetryException();
+                }
             }
         }
-    }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex,
+                "Failed to send event {EventId} to subscriber '{SubscriberName}', '{exception}', '{Reason}'",
+                eventGridEvent.Id,
+                subscription.Name, ex.GetType().Name, ex.Message);
+            throw new RetryException("Retry required", ex);
+        }
 
+    }
 }
