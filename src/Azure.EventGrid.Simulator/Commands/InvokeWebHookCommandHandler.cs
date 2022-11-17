@@ -34,7 +34,7 @@ public class InvokeWebHookCommandHandler : AsyncRequestHandler<InvokeWebHookComm
         httpClient.DefaultRequestHeaders.Add(Constants.AegDataVersionHeader, @eventGridEvent.DataVersion);
         httpClient.DefaultRequestHeaders.Add(Constants.AegMetadataVersionHeader, @eventGridEvent.MetadataVersion);
         httpClient.DefaultRequestHeaders.Add(Constants.AegDeliveryCountHeader, "0"); // TODO implement re-tries
-        httpClient.Timeout = TimeSpan.FromSeconds(60);
+        httpClient.Timeout = TimeSpan.FromSeconds(30);
 
         var endpoint = subscription.Destination.Properties.Endpoint;
 

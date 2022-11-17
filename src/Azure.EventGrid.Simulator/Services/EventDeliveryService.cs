@@ -1,5 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
+using Azure.EventGrid.Simulator.Commands;
+using Azure.EventGrid.Simulator.Exceptions;
 using Azure.EventGrid.Simulator.Settings;
 using MediatR;
 using Microsoft.Extensions.Options;
@@ -44,7 +46,7 @@ public class EventDeliveryService : BackgroundService
                 var command = _queueService.Dequeue();
                 if (command != null)
                 {
-                    var currentTask= _mediator.Send(command, stoppingToken);
+                    var currentTask= Send(command, stoppingToken);
                     newTaskList.Add(currentTask);
                 }
                 else
@@ -68,5 +70,22 @@ public class EventDeliveryService : BackgroundService
         }
 
         _logger.LogDebug($"GracePeriod background task is stopping.");
+    }
+    private IEnumerable<InvokeCommandBase?> GetQueueMessages()
+    {
+        var command = _queueService.Dequeue();
+        yield return command;
+    }
+
+    private async Task Send(InvokeCommandBase command, CancellationToken stoppingToken)
+    {
+        try
+        {
+            await _mediator.Send(command, stoppingToken);
+        }
+        catch (RetryException e)
+        {
+            Console.WriteLine(e);
+        }
     }
 }
