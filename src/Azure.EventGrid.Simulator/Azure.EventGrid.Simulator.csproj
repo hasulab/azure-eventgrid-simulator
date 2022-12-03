@@ -5,14 +5,11 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <OutputType>Library</OutputType>
+    <IsPackable>true</IsPackable>
     <Title>Azure EventGrid Simulator</Title>
     <PackageId>Azure.EventGrid.Simulator</PackageId>
     <RepositoryUrl>https://github.com/hasulab/azure-eventgrid-simulator</RepositoryUrl>
   </PropertyGroup>
-
-  <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
   
   <ItemGroup>
 	  <PackageReference Include="Azure.Storage.Queues" Version="12.12.0" />
