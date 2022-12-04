@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "Azure.EventGrid.Simulator": {
+    "Azure.EventGrid.Simulator.Sample": {
       "commandName": "Project",
       "commandLineArgs": "--port 5002",
       "launchBrowser": false,
