@@ -28,6 +28,10 @@ app.MapSimulatorEndpoint();
     "ConcurrentEventsProcessing": 2 
   }
 ```
+
+You will need a self signed certificate to run Azure EventGrid Simulator on local.
+ - [How to Generate a self-signed certificate using PowerShell script](https://gist.github.com/hasmukhlalpatel/ed46bc73c7da708daafe3e566ee8f8d2)
+
 and events subscriptions  settings to appsettings.json or appsettings.Development.json
 ```
 "topics": [
