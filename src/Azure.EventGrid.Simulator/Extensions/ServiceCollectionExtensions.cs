@@ -12,7 +12,7 @@ namespace Azure.EventGrid.Simulator.Extensions
             configuration.Bind(settings);
 
             services.AddSingleton(_ => settings);
-            services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
             services.AddHttpClient();
 			services.Configure<EventDeliverySettings>(opt
 				=> configuration.GetSection("EventDeliverySettings")

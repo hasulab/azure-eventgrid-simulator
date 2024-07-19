@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Azure.EventGrid.Simulator.Commands;
 
-public class InvokeStorageBlobCommandHandler : AsyncRequestHandler<InvokeStorageBlobCommand>
+public class InvokeStorageBlobCommandHandler : IRequestHandler<InvokeStorageBlobCommand>
 {
     private readonly ILogger<InvokeStorageBlobCommandHandler> _logger;
 
@@ -14,7 +14,7 @@ public class InvokeStorageBlobCommandHandler : AsyncRequestHandler<InvokeStorage
         _logger = logger;
     }
 
-    protected override async Task Handle(InvokeStorageBlobCommand request, CancellationToken cancellationToken)
+    public async Task Handle(InvokeStorageBlobCommand request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Sending to Blob {BlobContainerName}", request.Subscription.Destination.Properties.QueueName);
 

@@ -1,11 +1,10 @@
 ﻿using Azure.Storage.Queues;
 using MediatR;
 using Newtonsoft.Json;
-using System.Text;
 
 namespace Azure.EventGrid.Simulator.Commands;
 
-public class InvokeStorageQueueCommandHandler : AsyncRequestHandler<InvokeStorageQueueCommand>
+public class InvokeStorageQueueCommandHandler : IRequestHandler<InvokeStorageQueueCommand>
 {
     private readonly ILogger<InvokeStorageQueueCommandHandler> _logger;
 
@@ -15,7 +14,7 @@ public class InvokeStorageQueueCommandHandler : AsyncRequestHandler<InvokeStorag
 
     }
 
-    protected override async Task Handle(InvokeStorageQueueCommand request, CancellationToken cancellationToken)
+    public async Task Handle(InvokeStorageQueueCommand request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Sending to Queue {QueueName}", request.Subscription.Destination.Properties.QueueName);
 
