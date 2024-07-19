@@ -16,7 +16,7 @@ namespace Azure.EventGrid.Simulator.Extensions
 					var requestBody = await context.RequestBody();
 					var topic = settings.Topics.First(x => x.Port == context.Request.Host.Port);
 					var events = JsonConvert.DeserializeObject<EventGridEvent[]>(requestBody);
-					var resposne = await mediator.Send(new SendEventsToSubscriberCommand(events, topic));
+					await mediator.Send(new SendEventsToSubscriberCommand(events, topic));
 				});
 		}
 	}

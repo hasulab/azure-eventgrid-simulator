@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Azure.EventGrid.Simulator.Commands;
 
-public class SendEventsToSubscriberCommandHandler : AsyncRequestHandler<SendEventsToSubscriberCommand>
+public class SendEventsToSubscriberCommandHandler : IRequestHandler<SendEventsToSubscriberCommand>
 {
     private readonly ILogger<SendEventsToSubscriberCommandHandler> _logger;
     private readonly IEventQueueService _queueService;
@@ -19,7 +19,7 @@ public class SendEventsToSubscriberCommandHandler : AsyncRequestHandler<SendEven
         _queueService = queueService;
         _mediator = mediator;
     }
-    protected override Task Handle(SendEventsToSubscriberCommand request, CancellationToken cancellationToken)
+    public Task Handle(SendEventsToSubscriberCommand request, CancellationToken cancellationToken)
     {
         string topicName = request.Topic.Name;
         foreach (var @eventGridEvent in request.Events)

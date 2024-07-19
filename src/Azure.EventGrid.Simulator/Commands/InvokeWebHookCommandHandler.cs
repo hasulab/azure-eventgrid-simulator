@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace Azure.EventGrid.Simulator.Commands;
 
-public class InvokeWebHookCommandHandler : AsyncRequestHandler<InvokeWebHookCommand>
+public class InvokeWebHookCommandHandler : IRequestHandler<InvokeWebHookCommand>
 {
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly ILogger<InvokeWebHookCommandHandler> _logger;
@@ -18,7 +18,7 @@ public class InvokeWebHookCommandHandler : AsyncRequestHandler<InvokeWebHookComm
         _httpClientFactory = httpClientFactory;
         _logger = logger;
     }
-    protected override async Task Handle(InvokeWebHookCommand request, CancellationToken cancellationToken)
+    public async Task Handle(InvokeWebHookCommand request, CancellationToken cancellationToken)
     {
         await InvokeWebHook(request.Subscription,request.EventGridEvent, request.TopicName, cancellationToken);
     }
