@@ -7,3 +7,5 @@ var app = builder.Build();
 app.MapGet("/", () => "Hello World!");
 app.MapSimulatorEndpoint();
 app.Run();
+
+public partial class Program { }

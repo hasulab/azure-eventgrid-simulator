@@ -30,4 +30,8 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="Azure.EventGrid.Simulator.E2E.Tests" />
+  </ItemGroup>
+  
 </Project>

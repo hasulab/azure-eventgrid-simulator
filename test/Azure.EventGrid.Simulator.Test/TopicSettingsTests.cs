@@ -84,6 +84,8 @@ namespace Azure.EventGrid.Simulator.Tests
                     counter++;
                 }
             }
+
+            Assert.Equal(1, counter);
         }
     }
 }
