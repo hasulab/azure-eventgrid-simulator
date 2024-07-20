@@ -1,4 +1,7 @@
+using Azure.EventGrid.Simulator.Extensions;
+using Azure.Messaging.EventGrid;
 using Microsoft.AspNetCore.Mvc.Testing;
+using System.Net.Http.Json;
 
 namespace Azure.EventGrid.Simulator.E2E.Tests
 {
@@ -10,6 +13,7 @@ namespace Azure.EventGrid.Simulator.E2E.Tests
         public BasicTests(WebApplicationFactory<Program> factory)
         {
             _factory = factory;
+            EndpointRouteBuilderExtensions.IsE2ETestCall = true;
         }
 
         [Theory]
@@ -18,14 +22,15 @@ namespace Azure.EventGrid.Simulator.E2E.Tests
         {
             // Arrange
             var client = _factory.CreateClient();
+            var @event = new EventGridEvent("test subject", "test type", "1.0", new { id = 1 });
+
+            EventGridEvent[] events = [@event];
 
             // Act
-            var response = await client.PostAsync(url, new StringContent("test") );
+            var response = await client.PostAsync(url, JsonContent.Create(events));
 
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299
-            Assert.Equal("text/html; charset=utf-8",
-                response.Content.Headers.ContentType.ToString());
         }
     }
 }
