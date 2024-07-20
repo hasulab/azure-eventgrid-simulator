@@ -20,6 +20,11 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.7" />
+  </ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\samples\Azure.EventGrid.Simulator.Sample\Azure.EventGrid.Simulator.Sample.csproj" />
 	</ItemGroup>
 
 </Project>
