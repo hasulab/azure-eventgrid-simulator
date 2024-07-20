@@ -3,10 +3,10 @@ using Azure.Messaging.EventGrid;
 using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net.Http.Json;
 
-namespace Azure.EventGrid.Simulator.E2E.Tests
+namespace Azure.EventGrid.Simulator.Integration.Tests
 {
     public class BasicTests
-    : IClassFixture<WebApplicationFactory<Program>>
+   : IClassFixture<WebApplicationFactory<Program>>
     {
         private readonly WebApplicationFactory<Program> _factory;
 
