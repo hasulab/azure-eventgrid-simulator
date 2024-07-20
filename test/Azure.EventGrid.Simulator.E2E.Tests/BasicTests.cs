@@ -22,7 +22,7 @@ namespace Azure.EventGrid.Simulator.E2E.Tests
         {
             // Arrange
             var client = _factory.CreateClient();
-            var @event = new EventGridEvent("test subject", "test type", "1.0", new { id = 1 });
+            var @event = new EventGridEvent("My.BatchProcessor.Test.Shared.Events.TestFileArrivedEvent", "TestEvent", "1.0", new { id = 1 });
 
             EventGridEvent[] events = [@event];
 

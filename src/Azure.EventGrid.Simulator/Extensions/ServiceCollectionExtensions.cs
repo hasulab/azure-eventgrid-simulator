@@ -1,6 +1,5 @@
 ﻿using Azure.EventGrid.Simulator.Services;
 using Azure.EventGrid.Simulator.Settings;
-using MediatR;
 using System.Reflection;
 
 namespace Azure.EventGrid.Simulator.Extensions
