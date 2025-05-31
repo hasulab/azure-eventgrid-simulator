@@ -28,7 +28,7 @@ app.MapSimulatorEndpoint();
     "ConcurrentEventsProcessing": 2 
   }
 ```
-and events subscriptions  settings to appsettings.json or appsettings.Development.json
+and events subscriptions settings to appsettings.json or appsettings.Development.json
 ```
 "topics": [
     {
@@ -95,7 +95,7 @@ or by thumbprint
     * goto `run` and type `certmgr.msc`
     * goto `Manage user certificates -> Certificates - Current Users` 
     * goto `Personal -> Certificates`
-    * Right click on the root cetificate and follow the Wizard and  export with private key.
+    * Right click on the root cetificate and follow the Wizard and export with private key.
 
 #### Imoprt root certificate to tursted root
     * goto `Manage user certificates -> Certificates - Current Users`
@@ -146,9 +146,9 @@ $params = @{
     * goto `run` and type `certmgr.msc`
     * goto `Manage user certificates -> Certificates - Current Users` 
     * goto `Personal -> Certificates`
-    * Right click on the client/dns cetificate and follow the Wizard and  export with private key.
+    * Right click on the client/dns cetificate and follow the Wizard and export with private key.
     * Save as `localhost.pfx` in the `src\Local.ReverseProxy` folder and update the password in the ``appSettings.json`` file.
 
 
 #### More info
-    * How to Generate and export certificates for point-to-site using PowerShell](https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-certificates-point-to-site)
+    * [How to Generate and export certificates for point-to-site using PowerShell](https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-certificates-point-to-site)
