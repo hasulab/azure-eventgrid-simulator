@@ -13,9 +13,9 @@
     <RepositoryUrl>https://github.com/hasulab/azure-eventgrid-simulator</RepositoryUrl>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <AssemblyVersion>0.8.0</AssemblyVersion>
-    <FileVersion>0.8.0</FileVersion>
-    <Version>0.8.0</Version>
+    <AssemblyVersion>0.8.1</AssemblyVersion>
+    <FileVersion>0.8.1</FileVersion>
+    <Version>0.8.1</Version>
     <Description>Azure EventGrid Simulator is a sample app purpose is to run on local for Dev and test for non production use only.</Description>
     <PackageReleaseNotes>upgraded to dotnet 8</PackageReleaseNotes>
     <Authors>Hasmukh Patel</Authors>
@@ -26,12 +26,10 @@
   </PropertyGroup>
   
   <ItemGroup>
-	  <PackageReference Include="Azure.Storage.Queues" Version="12.19.0" />
-	  <PackageReference Include="Azure.Storage.Blobs" Version="12.21.0" />
-	  <PackageReference Include="MediatR" Version="12.3.0" />
-	  <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
-	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-	  <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+	  <PackageReference Include="Azure.Storage.Queues" Version="12.22.0" />
+	  <PackageReference Include="Azure.Storage.Blobs" Version="12.24.0" />
+	  <PackageReference Include="MediatR" Version="12.5.0" />
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />	  
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\README.md">
@@ -40,7 +38,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\LICENSE" Pack="true" PackagePath="\"/>
+    <None Include="..\..\LICENSE" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>
