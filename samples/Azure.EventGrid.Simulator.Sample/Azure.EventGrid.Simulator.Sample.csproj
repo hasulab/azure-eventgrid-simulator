@@ -33,5 +33,9 @@
   <ItemGroup>
     <InternalsVisibleTo Include="Azure.EventGrid.Simulator.E2E.Tests" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy localhost-Test1234.pfx.txt localhost-Test1234.pfx" />
+  </Target>
   
 </Project>
